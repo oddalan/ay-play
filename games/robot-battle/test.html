@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Robot Battle</title>
+    <style>
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+      }
+     
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <script type="module">
+         import * as THREE from "three";
+       import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+       const modelLoader = new GLTFLoader();
+
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize( window.innerWidth, window.innerHeight );
+      renderer.setAnimationLoop( loop );
+      document.body.appendChild( renderer.domElement );
+
+      const scene = new THREE.Scene();
+
+      const camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        500
+      );
+
+      function addAnObject(object) {
+            if (object.type === "mesh"){
+                const geometry = object.geometry
+                const material = object.material
+                const addedObject = new THREE.Mesh( geometry, material );
+                scene.add(addedObject)
+                addedObject.position = object.position
+                
+
+            }
+
+            if (object.type === "modle"){
+                modelLoader.load( object.modle, function ( gltf ) {
+                scene.add( gltf.scene );
+                 gltf.position = object.position
+               
+                }, undefined, function ( error ) {
+                console.error( error );
+                } );
+            }
+        }
+
+        let objects = [{type: "modle", modle: "./assets/room/room.gltf", position: {x: 0, y: 0, z: 0}}, 
+        {type: "mesh", geometry: new THREE.BoxGeometry( 1, 1, 1 ), material: new THREE.MeshBasicMaterial( { color: 0x00ff00 }, ),position:{x: 0, y: 0, z: 5}}
+        ]
+
+        function loop(){
+
+        for(let object of objects){
+            addAnObject(object)
+        }
+
+        renderer.render( scene, camera );
+
+
+        requestAnimationFrame(loop)
+        
+    }
+     requestAnimationFrame(loop)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+<title>sign in</title>
+<link rel="manifest" href="./manifest.json" />
+<script type="module">
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service.js");
+  }
+
+   
+</script>
+<a href="././index.html"><img alt="logo" src="././assets/finished-ayplay-logo.png"  width="150" height="75"></img></a>
+<style> 
+html {
+    color-scheme: light dark;
+}
+body {
+    background: light-dark(rgb(255, 255, 255), rgb(0, 0, 0));
+    color: light-dark(rgb(32, 32, 32), white);
+    z-index: 1;
+  }
+  </style>
+<meta name="viewport" content="width=device-width, initial-scale=1" />

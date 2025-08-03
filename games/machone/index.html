@@ -1,0 +1,101 @@
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mach 1</title>
+    <style>
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+      }
+      .ui {
+        z-index: 1;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    
+    <script type="module">
+        let loaded = false
+       
+        import * as THREE from "three";
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+
+        const loader = new GLTFLoader();
+
+        let mode = 1
+
+        let objects3D = [
+          {
+            geometry: new THREE.BoxGeometry( 2, 1, 4 ), 
+            material: new THREE.MeshBasicMaterial( { color: 0x555555 } ), 
+            position: {x:0, y:-2, z:-7}
+          },
+          {
+            geometry: new THREE.BoxGeometry( 2, 1, 4 ), 
+            material: new THREE.MeshBasicMaterial( { color: 0x550000 } ), 
+            position: {x:5, y:-2, z:-7}
+          },
+         ]
+
+        function addAnObject(a){
+          const object = new THREE.Mesh( a.geometry, a.material );
+          object.position.set(a.position.x, a.position.y, a.position.z)
+          scene.add( object )
+          console.log(object)
+        }
+
+        let start = Date.now;
+
+        let time = 2000
+
+        for (let object of objects3D){
+          addAnObject(object)
+        }
+
+        function loop(){
+           requestAnimationFrame(loop)
+      }
+
+        requestAnimationFrame(loop)
+
+          window.addEventListener("load", (event) => {
+          loaded = true
+          console.log("finished loading")
+        });
+
+    </script>
+     <canvas id="tutorial" class="ui"></canvas>
+     <!-- 
+    <video
+      id="loading-screen"
+      width="480"
+      loop
+      src="./assets/0001-0012.mp4"
+    ></video> 
+    -->
+     </body>
+</html>

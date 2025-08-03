@@ -1,0 +1,66 @@
+<style>
+    body{
+        margin: 0px;
+    }
+    canvas {
+        position: fixed;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+      }
+</style>
+
+<body>
+
+<canvas id="screen"></canvas>
+
+<script type="module">
+    const canvas = document.getElementById("screen");
+    const ctx = canvas.getContext("2d");
+
+    let gamelogos = ["./././assets/finished-ayplay-logo.png"]
+
+    export { gamelogos }
+
+    let games = {fight: false, threejs: false, fungame: false}
+
+    localStorage.setItem("games", JSON.stringify(games))
+    console.log(games)
+
+
+
+      function resizeContext() {
+        let { clientWidth, clientHeight } = ctx.canvas;
+        ctx.canvas.width = clientWidth;
+        ctx.canvas.height = clientHeight;
+        ctx.width = ctx.canvas.clientWidth;
+        ctx.height = ctx.canvas.clientHeight;
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+
+      function renderContext() {
+        let thing = {x: 10, y: 10}
+        
+        ctx.save()
+        ctx.fillStyle = "#EEEE00";
+        ctx.fillRect(thing.x,thing.y,600,300)
+        ctx.clearRect(thing.x + 10, thing.y + 10, 580, 280)
+        ctx.restore()
+        requestAnimationFrame(renderContext);
+      }
+      requestAnimationFrame(renderContext);
+
+      addEventListener(
+        "resize",
+        () => {
+          resizeContext();
+          renderContext();
+        },
+        { passive: true }
+      );
+
+      resizeContext();
+      renderContext();
+</script>
+
+</body>

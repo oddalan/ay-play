@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>test</title>
+    <style>
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+      }
+      
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <script type="module">
+
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+        let start = new(Date)
+        let end = new(Date)
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setAnimationLoop( animate );
+        document.body.appendChild( renderer.domElement );
+
+       
+        // const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+        // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+        // const cube = new THREE.Mesh( geometry, material );
+        // scene.add( cube );
+
+        camera.position.z = 0;
+
+        let objects = [{type: "mesh", geometry: new THREE.BoxGeometry( 1, 1, 1 ), material: new THREE.MeshBasicMaterial( { color: 0xff0000 } ),  x:0, y:0, z:-5}]
+        let addedObjects = []
+
+        let objectNumber = 0
+
+        function addAnObject(object) {
+            if (object.type === "mesh"){
+                const geometry = object.geometry
+                const material = object.material
+                const addedObject = new THREE.Mesh( geometry, material );
+                scene.add(addedObject);
+                addedObject.position.set( object.x, object.y, object.x );
+
+                addedObject.name = JSON.stringify(addedObject);
+                
+              addedObjects[objectNumber] = addedObject;
+
+              objectNumber++
+
+              console.log( addedObject )
+            } else {
+
+            if (object.type === "modle"){
+                modelLoader.load( object.modle, function ( gltf ) {
+                scene.add( gltf.scene );
+                 gltf.position.set( object.x, object.y, object.x )
+               
+                }, undefined, function ( error ) {
+                console.error( error );
+                } );
+                addedObjects[objectNumber] = gltf
+                objectNumber++
+            } else {
+              console.error("glich")
+            }
+
+            }
+        }
+
+        function animate() {
+          for (let object of objects) {
+            addAnObject(object)
+          }
+          renderer.render( scene, camera );
+
+        }
+
+        // const loader = new GLTFLoader();
+
+        // loader.load( './assets/room/room.gltf', function ( gltf ) {
+
+        // scene.add( gltf.scene );
+
+        // }, undefined, function ( error ) {
+
+        //   console.error( error );
+
+        // } );
+    </script> 
+    </body>
+</html>

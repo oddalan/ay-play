@@ -1,0 +1,220 @@
+<title>Fun Game</title>
+
+<link rel="icon" href="../../ayplay.webp" />
+
+<style></style>
+
+<script type="module">
+  const canvas = document.getElementById("tutorial");
+  const ctx = canvas.getContext("2d");
+
+  function getRandomInt(min, max) {
+    return min + Math.floor((max - min + 1) * Math.random());
+  }
+
+  let mode = 1;
+
+  const buttonPresses = {
+    0: null,
+    1: null,
+    2: null,
+    3: null,
+    4: null,
+    5: null,
+    6: null,
+    7: null,
+    8: null,
+    9: null,
+  };
+
+  let players = [
+    { id: "0", x: 0, y: 300, gamepad: null, color: "#ff0000" },
+    { id: "1", x: 200, y: 300, gamepad: null, color: " #ffdd00" },
+    { id: "2", x: 400, y: 300, gamepad: null, color: "#00dd00" },
+    { id: "3", x: 600, y: 300, gamepad: null, color: "purple" },
+  ];
+
+  let monsters = []
+
+
+
+  function loop(now) {
+    requestAnimationFrame(loop);
+    let delta = now - then;
+    then = now;
+    loopGamepad(now);
+    renderGame(now);
+  }
+
+  requestAnimationFrame(loop);
+
+  const gamepads = Object.create(null);
+
+  function loopGamepad(time) {
+    for (let gamepad of navigator.getGamepads()) {
+      if (!gamepad) continue;
+
+      const { index: gamepadId } = gamepad;
+
+      gamepads[gamepadId] ??= { buttons: {} };
+
+      for (let [i, { value }] of Object.entries(gamepad.buttons)) {
+        const buttonId = Number(i);
+
+        if (
+          (!gamepads[gamepadId].buttons[buttonId] && value > 0.8) ||
+          (gamepads[gamepadId].buttons[buttonId] &&
+            time - gamepads[gamepadId].buttons[buttonId] > 500)
+        ) {
+          gamepads[gamepadId].buttons[buttonId] = time;
+
+          dispatchEvent(
+            new CustomEvent("gamepadbuttondown", {
+              detail: { gamepadId, buttonId, value, time },
+            })
+          );
+        }
+
+        if (gamepads[gamepadId].buttons[buttonId] && value < 0.1) {
+          delete gamepads[gamepadId].buttons[buttonId];
+
+          dispatchEvent(
+            new CustomEvent("gamepadbuttonup", {
+              detail: { gamepadId, buttonId, value, time },
+            })
+          );
+        }
+      }
+      if (
+        gamepad.axes[0] > 0.2 ||
+        gamepad.axes[0] < 0.2 ||
+        gamepad.axes[1] > 0.2 ||
+        gamepad.axes[1] < 0.2
+      ) {
+        let stick0 = gamepad.axes[0];
+        let stick1 = gamepad.axes[1];
+        dispatchEvent(
+          new CustomEvent("leftstickmoved", {
+            detail: { stick0, stick1, gamepadId },
+          })
+        );
+      }
+    }
+  }
+
+  let playergamepad = 0;
+
+  function notFirstTime(gamepadId, buttonId, value, time) {
+    if (mode === 1 && buttonId === 0) {
+      mode = 2;
+    }
+    if (mode === 2 && buttonId === 15) {
+      players[gamepadId].x += 10;
+    }
+    if (mode === 2 && buttonId === 14) {
+      players[gamepadId].x -= 10;
+    }
+    if (mode === 2 && buttonId === 13) {
+      players[gamepadId].y += 10;
+    }
+    if (mode === 2 && buttonId === 12) {
+      players[gamepadId].y -= 10;
+    }
+  }
+
+  addEventListener("gamepadbuttondown", (event) => {
+    if (playergamepad === 0) {
+      players[playergamepad].gamepad = event.detail.gamepadId;
+
+      playergamepad++;
+    } else {
+      if (
+        playergamepad === 1 &&
+        event.detail.gamepadId !== players[0].gamepad
+      ) {
+        players[playergamepad].gamepad = event.detail.gamepadId;
+        playergamepad++;
+      } else {
+        console.log("it worked");
+
+        if (
+          playergamepad === 2 &&
+          event.detail.gamepadId !== players[0].gamepad &&
+          event.detail.gamepadId !== players[1].gamepad
+        ) {
+          players[playergamepad].gamepad = event.detail.gamepadId;
+          playergamepad++;
+        } else {
+          if (
+            playergamepad === 3 &&
+            event.detail.gamepadId !== players[0].gamepad &&
+            event.detail.gamepadId !== players[1].gamepad &&
+            event.detail.gamepadId !== players[3].gamepad
+          ) {
+            players[playergamepad].gamepad = event.detail.gamepadId;
+            playergamepad++;
+          } else {
+            notFirstTime(
+              event.detail.gamepadId,
+              event.detail.buttonId,
+              event.detail.value,
+              event.detail.time
+            );
+          }
+        }
+      }
+    }
+
+    console.log(players);
+  });
+
+  addEventListener("gamepadbuttonup", (event) => {
+    console.log("up", event.detail);
+  });
+
+  let gameplace = { x: -890, y: 10 };
+  let length = players.length;
+
+  let oneTime = 0;
+
+  function renderGame() {
+    ctx.clearRect(0, 0, 900, 700);
+    ctx.fillStyle = "#555555";
+    ctx.fillRect(0, 0, 900, 700);
+    if (mode === 2) {
+      if (players[3].gamepad === null && oneTime === 0) {
+        length--;
+        console.log(length);
+        oneTime = 1;
+      }
+
+      if (players[2].gamepad === null && oneTime === 1) {
+        length--;
+        console.log(length);
+        oneTime = 2;
+      }
+
+      if (players[1].gamepad === null && oneTime === 2) {
+        length--;
+        console.log(length);
+        oneTime = 3;
+      }
+    }
+
+    for (let player of players) {
+      if (mode === 1 && player.gamepad !== null) {
+        ctx.fillStyle = player.color;
+        ctx.fillRect(player.x + 10, player.y, 80, 80);
+      }
+
+      if (mode === 2 && player.gamepad !== null) {
+        ctx.fillStyle = player.color;
+        ctx.fillRect(player.x, player.y, 80, 80);
+      }
+    }
+  }
+
+  let then = performance.now();
+</script>
+
+<canvas id="tutorial" width="900" height="700"> </canvas>

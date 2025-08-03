@@ -1,0 +1,17 @@
+{
+    "name": "Ay-play",
+    "short_name": "Ay-play",
+    "description": "Fun stuff.",
+    "background_color": "#FF0000",
+    "theme_color": "#FF0000",
+    "display": "standalone",
+    "orientation": "landscape",
+    "start_url": "./index.html",
+    "icons": [
+      {
+        "src": "./assets/ayplay-logo-square.png",
+        "sizes": "256x256 512x512 1024x1024",
+        "type": "image/png"
+      }
+    ]
+  }

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>heros</title>
+    <style>
+     
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+        filter: blur(2px);
+      }
+      .ui {
+        z-index: 1;
+        filter: blur(0px);
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <script type="module">
+      import * as THREE from "three";
+       import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+       const modelLoader = new GLTFLoader();
+
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        500
+      );
+      // add stuff add stuff add stuff add stuff add stuff add stuff
+      const loader = new THREE.CubeTextureLoader();
+      loader.setPath("");
+
+      const textureCube = loader.load([
+        "ayplay.webp",
+        "thing.webp",
+        "ayplay.webp",
+        "thing.webp",
+        "ayplay.webp",
+        "thing.webp",
+      ]);
+      const cube3geometry = new THREE.BoxGeometry(1, 1, 1);
+      const cube3material = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        envMap: textureCube,
+      });
+      const cube3 = new THREE.Mesh(cube3geometry, cube3material);
+
+      cube3.position.set(0, 2, 97);
+
+      const cube1geometry = new THREE.BoxGeometry(1, 1, 1);
+      const cube1material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const cube1 = new THREE.Mesh(cube1geometry, cube1material);
+      cube1.position.set(0, 5, 0);
+      cube1.castShadow = true;
+      cube1.receiveShadow = false;
+
+      const shapex = 0,
+        shapey = 0;
+
+      const shadowShape = new THREE.Shape();
+
+      shadowShape.moveTo(shapex + 5, shapey + 5);
+
+      const shadowgeometry = new THREE.ShapeGeometry(shadowShape);
+      const shadowmaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      const shadow = new THREE.Mesh(shadowgeometry, shadowmaterial);
+
+      shadow.position.z = 95;
+
+      const playergeometry = new THREE.BoxGeometry(2, 2, 2);
+      const playermaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const player = new THREE.Mesh(playergeometry, playermaterial);
+
+      const geometry = new THREE.PlaneGeometry(10000, 10000);
+      const material = new THREE.MeshBasicMaterial({
+        color: 0x00ff00,
+        side: THREE.DoubleSide,
+      });
+
+      const plane = new THREE.Mesh(geometry, material);
+      plane.castShadow = false; //default
+      plane.receiveShadow = true; // not default
+
+      // cube1.position.z = 65;
+      let playerx = JSON.parse(localStorage.getItem("x"));
+      console.log(JSON.parse(localStorage.getItem("x")));
+      let playery = JSON.parse(localStorage.getItem("y"));
+      console.log(JSON.parse(localStorage.getItem("y")));
+      let playerz = JSON.parse(localStorage.getItem("z"));
+      console.log(JSON.parse(localStorage.getItem("z")));
+
+      let a = JSON.parse(localStorage.getItem("a"));
+      let b = 0;
+      let cube1cos1 = Math.cos(a);
+      let cube1sin1 = Math.sin(a);
+
+      const boxes = [
+        {
+          x: cube1.position.x,
+          y: cube1.position.y,
+          z: cube1.position.z,
+          width: 1,
+          height: 1,
+          depth: 1,
+          id: "box",
+        },
+        {
+          x: 0.3,
+          y: 0,
+          z: 0,
+          width: 1,
+          height: 1,
+          depth: 1,
+          id: "box",
+        },
+        {
+          x: -5,
+          y: 0,
+          z: 0,
+          width: 1,
+          height: 1,
+          depth: 1,
+          id: "box",
+        },
+        {
+          x: 0,
+          y: 0,
+          z: 0.3,
+          width: 1,
+          height: 1,
+          depth: 1,
+          id: "box",
+        },
+      ];
+
+      const cylinders = [
+        {
+          x: 0,
+          y: 0,
+          z: 0,
+          radiusTop: 1,
+          radiusBottom: 1,
+          height: 1,
+          width: 1,
+          depth: 1,
+
+          id: "cylinder",
+        },
+        {
+          x: 0.3,
+          y: 0,
+          z: 0,
+          radiusTop: 1,
+          radiusBottom: 1,
+          height: 1,
+          width: 1,
+          depth: 1,
+
+          id: "cylinder",
+        },
+        {
+          x: -5,
+          y: 0,
+          z: 0,
+          radiusTop: 1,
+          radiusBottom: 1,
+          height: 1,
+          width: 1,
+          depth: 1,
+
+          id: "cylinder",
+        },
+        {
+          x: 0,
+          y: 0,
+          z: 0.3,
+          radiusTop: 1,
+          radiusBottom: 1,
+          height: 1,
+          width: 1,
+          depth: 1,
+
+          id: "cylinder",
+        },
+      ];
+
+      function Collision(a, b) {
+        let i = 0;
+
+        if (a.centerOfMass.position.x > b.top.width && b.rotation.x === 90) {
+          i++;
+        }
+
+        if (a.centerOfMass.position.z > b.top.depth && b.rotation.z === 90) {
+          i++;
+        }
+      }
+
+      // function checkCollision(a, b) {
+      //   let afullwidth = a.width;
+      //   let afullheight = a.height;
+      //   let afulldepth = a.depth;
+      //   let bfullwidth = b.width;
+      //   let bfullheight = b.height;
+      //   let bfulldepth = b.depth;
+
+      //   if (
+      //     a.x + afullwidth < b.x ||
+      //     a.y + afullheight < b.y ||
+      //     a.z + afulldepth < b.z ||
+      //     b.x + bfullwidth < a.x ||
+      //     b.y + bfullheight < a.y ||
+      //     b.z + bfulldepth < a.z
+      //   ) {
+      //     // They could not have have met
+      //     return false;
+      //   }
+
+      //   // They could have met
+      //   return true;
+      // }
+
+      // console.log(checkCollision(boxes[0], boxes[1]));
+      // console.log(checkCollision(boxes[1], boxes[2]));
+      // console.log(checkCollision(boxes[0], boxes[3]));
+
+      function addTree(a, b, c, d, ) {
+        const cylindergeometry = new THREE.CylinderGeometry(1, 1, d / 3, 32);
+        const cylindermaterial = new THREE.MeshBasicMaterial({
+          color: 0x885500,
+        });
+        const cylinder = new THREE.Mesh(cylindergeometry, cylindermaterial);
+
+        const conegeometry = new THREE.ConeGeometry(2, d - d / 5, 32);
+        const conematerial = new THREE.MeshBasicMaterial({ color: 0x008800 });
+        const cone = new THREE.Mesh(conegeometry, conematerial);
+
+        scene.add(cylinder);
+
+        scene.add(cone);
+        cylinder.position.z = a;
+        cylinder.position.y = b - 0.5;
+        cylinder.position.x = c;
+        cone.position.z = a;
+        cone.position.y = b + 2;
+        cone.position.x = c;
+      }
+      function addChest(delta) {
+      modelLoader.load( './chest/chest.gltf', function ( chest ) {
+
+      const mixer = new THREE.AnimationMixer( chest );
+      const clips = chest.animations;
+
+// Update the mixer on each frame
+      function update () {
+      mixer.update( delta );
+      }
+
+// Play a specific animation
+const clip = THREE.AnimationClip.findByName( clips, 'Cube.001Action' );
+const action = mixer.clipAction( clip );
+action.play();
+
+// Play all animations
+clips.forEach( function ( clip ) {
+  mixer.clipAction( clip ).play();
+} );
+
+ chest.scene.position.z = -3
+  scene.add( chest.scene );
+
+  console.log(chest)
+
+}, undefined, function ( error ) {
+
+  console.error( error );
+
+} );
+      }
+      camera.position.set(0, 3.6, 100);
+
+      const scene = new THREE.Scene();
+
+      let cube1cos2 = Math.cos(b);
+      let cube1sin2 = Math.sin(b);
+if (!localStorage.getItem("x") === null){
+      player.position.x = JSON.parse(localStorage.getItem("x"));
+      player.position.y = JSON.parse(localStorage.getItem("y"));
+      player.position.z = JSON.parse(localStorage.getItem("z"));
+}else{
+  player.position.x = 0
+  player.position.y = 0
+  player.position.z = 0
+}
+ let then = performance.now();
+      function animate(now) {
+         let delta = now - then;
+      then = now;
+        // animate animate animate animate animate animate
+        boxes[1].x = cube1.position.x;
+        boxes[1].y = cube1.position.y;
+        boxes[1].z = cube1.position.z;
+        renderer.render(scene, camera);
+
+        camera.position.x = player.position.x + cube1sin1 * 5;
+        camera.position.y = player.position.y + 5 + cube1sin2 * 5;
+        camera.position.z = player.position.z + cube1cos1 * 5;
+
+        cube1cos1 = Math.cos(a) * 5;
+        cube1sin1 = Math.sin(a) * 5;
+
+        scene.add(player);
+        camera.lookAt(
+          player.position.x,
+          player.position.y + 3.5,
+          player.position.z
+        );
+
+        player.lookAt(
+          camera.position.x,
+          camera.position.y - 3.5,
+          camera.position.z
+        );
+        addTree(75, 0, 0, 5);
+        addTree(71, 0, 6, 5);
+        addTree(78, 0, -6, 5);
+        addTree(70, 0, -12, 5);
+        addChest(delta)
+        
+        scene.add(plane);
+
+        plane.position.z = 75;
+        plane.position.y = -1.5;
+
+        plane.rotation.x = (90 * Math.PI) / 180;
+      }
+      let number = 300;
+      let newnumber = 0;
+
+      newnumber = (number * Math.PI) / 180;
+      console.log(number, newnumber);
+
+      renderer.setAnimationLoop(animate);
+
+      let y = 0.05;
+      let z = 5;
+
+      addEventListener("keydown", (event) => {
+        if (event.key === "d") {
+          player.position.z -= cube1sin1 / 10;
+          player.position.x += cube1cos1 / 10;
+
+          console.log(player.position.z, player.position.x);
+        }
+
+        if (event.key === "a") {
+          player.position.z += cube1sin1 / 10;
+          player.position.x -= cube1cos1 / 10;
+          console.log(player.position.z, player.position.x);
+        }
+        if (event.key === "w") {
+          player.position.y += 1;
+          console.log(player.position.y);
+        }
+
+        if (event.key === "s") {
+          player.position.y -= 1;
+          console.log(player.position.y);
+        }
+        if (event.key === "b") {
+          player.position.z -= cube1cos1 / 10;
+          player.position.x -= cube1sin1 / 10;
+        }
+
+        if (event.key === " ") {
+          player.position.z += cube1cos1 / 10;
+          player.position.x += cube1sin1 / 10;
+        }
+        if (event.key === "ArrowLeft") {
+          a -= 0.05;
+        }
+
+        if (event.key === "ArrowRight") {
+          a += 0.05;
+        }
+        if (event.key === "ArrowUp") {
+          camera.position.y += y;
+          y += 0.001;
+
+          console.log(camera.rotation.x);
+        }
+
+        if (event.key === "ArrowDown") {
+          //   camera.position.y += y;
+          //   camera.position.z += z;
+
+          //   if (camera.position.y > player.position.y + 1) {
+          //     y -= 0.0000001;
+          //   } else {
+          //     y -= 0.0000001;
+          //   }
+
+          //   y = Math.sin(a) * 5;
+          //   z = Math.sin(b) * 2;
+          //   a += 0.1;
+          //   b += 0.1;
+
+          Math.sin();
+
+          console.log("sin", Math.sin(b), "cos", Math.cos(b));
+          b += 0.1;
+        }
+        if (event.key === "e") {
+          localStorage.setItem("x", JSON.stringify(player.position.x));
+
+          localStorage.setItem("y", JSON.stringify(player.position.y));
+
+          localStorage.setItem("z", JSON.stringify(player.position.z));
+
+          localStorage.setItem("a", JSON.stringify(a));
+        }
+
+        if (event.key === "h") {
+          localStorage.setItem("x", "0");
+
+          localStorage.setItem("y", "0");
+
+          localStorage.setItem("z", "90");
+
+          localStorage.setItem("a", "0");
+        }
+      });
+
+      const tutorialContext = tutorial.getContext("2d");
+
+      function resizeContext() {
+        let { clientWidth, clientHeight } = tutorialContext.canvas;
+        tutorialContext.canvas.width = clientWidth;
+        tutorialContext.canvas.height = clientHeight;
+        tutorialContext.width = tutorialContext.canvas.clientWidth;
+        tutorialContext.height = tutorialContext.canvas.clientHeight;
+        tutorialContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+
+      function renderContext() {
+        tutorialContext.translate(
+          tutorialContext.width - 110,
+          tutorialContext.height - 110
+        );
+
+        tutorialContext.fillStyle = "red";
+        tutorialContext.fillRect(0, 0, 100, 100);
+
+        tutorialContext.save();
+
+        tutorialContext.translate(
+          player.position.x / 100,
+          player.position.z / 100
+        );
+
+        tutorialContext.rotate((45 * Math.PI) / 180);
+
+        tutorialContext.fillStyle = "yellow";
+
+        tutorialContext.beginPath();
+        tutorialContext.moveTo(0, 0);
+        tutorialContext.lineTo(20, 10);
+        tutorialContext.lineTo(0, 20);
+        tutorialContext.fill();
+
+        tutorialContext.restore();
+        requestAnimationFrame(renderContext);
+      }
+      requestAnimationFrame(renderContext);
+
+      console.log(player.position.x / 100);
+
+      addEventListener(
+        "resize",
+        () => {
+          resizeContext();
+          renderContext();
+        },
+        { passive: true }
+      );
+
+      resizeContext();
+      renderContext();
+    </script>
+    <canvas id="tutorial" class="ui" width="700" height="700"></canvas>
+  </body>
+</html>
