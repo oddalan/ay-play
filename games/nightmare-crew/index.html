@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>nightmare crew</title>
+    <style>
+     
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+      }
+      .ui {
+        z-index: 1;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <script type="module" >// import and add the scene, camera, and renderer here
+      import * as THREE from 'three';
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize( window.innerWidth, window.innerHeight );
+      document.body.appendChild( renderer.domElement );
+
+      // add the objects and lights within the scene here
+
+      // im going to add the objects
+      // I'm using the object render from mach one
+      // it worked pretty well
+
+        let objects3D = [{position:{x:0,y:0,z:-5}, geometry: new THREE.BoxGeometry( 1, 1, 1 ), material: new THREE.MeshBasicMaterial( { color: 0x00ff00 } )}]
+
+        function addAnObject(a){
+            const object = new THREE.Mesh( a.geometry, a.material );
+            object.position.set(a.position.x, a.position.y, a.position.z)
+        }
+
+        for (let object of objects3D){
+            addAnObject(object)
+            scene.add( object )
+        }
+
+      // render the scene in a loop here
+
+      function loop(){
+        renderer.render( scene, camera );
+        requestAnimationFrame(loop)
+      }
+      requestAnimationFrame(loop)
+</script>
+    <script src="./canvas.js"></script>
+    <canvas id="tutorial" class="ui" width="700" height="700"></canvas>
+  </body>
+</html>

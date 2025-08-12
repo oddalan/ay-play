@@ -1,0 +1,31 @@
+
+      // add the mini map and other helpfull tools
+      
+      const tutorialContext = tutorial.getContext("2d");
+
+      function resizeContext() {
+        let { clientWidth, clientHeight } = tutorialContext.canvas;
+        tutorialContext.canvas.width = clientWidth;
+        tutorialContext.canvas.height = clientHeight;
+        tutorialContext.width = tutorialContext.canvas.clientWidth;
+        tutorialContext.height = tutorialContext.canvas.clientHeight;
+        tutorialContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+
+      function renderContext() {
+        
+        requestAnimationFrame(renderContext);
+      }
+      requestAnimationFrame(renderContext);
+
+      addEventListener(
+        "resize",
+        () => {
+          resizeContext();
+          renderContext();
+        },
+        { passive: true }
+      );
+
+      resizeContext();
+      renderContext();
