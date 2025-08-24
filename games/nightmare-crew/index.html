@@ -33,7 +33,24 @@
   </head>
   <body>
     <div>
-      <script src="./code/render.js"></script>
+      <script type="module">
+        import * as THREE from 'three';
+        import { addToScene } from './code/add-to-scene.js';
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+
+        addToScene(THREE, scene)
+
+        function loop(){
+            renderer.render(scene, camera)
+            requestAnimationFrame(loop)
+        }
+        requestAnimationFrame(loop)
+      </script>
       <script type="module">
       </script>
     </div>

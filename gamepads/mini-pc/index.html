@@ -1,0 +1,89 @@
+<style>
+        html {
+            height: 100%;
+            
+        }
+        body{
+            height: 100%;
+            margin: 0;
+            
+        }
+        canvas {
+            position: fixed;
+            inset: 0;
+            height: 100%;
+            width: 100%;
+            
+        }
+    </style>
+    <body>
+    <title>Mini PC</title>
+    <canvas width="900" height="450" id="screen"></canvas>
+    
+    <script>
+        const screen = document.getElementById("screen");
+        const ctx = screen.getContext("2d");
+
+      function resizeContext() {
+        let { clientWidth, clientHeight } = ctx.canvas;
+        ctx.canvas.width = clientWidth;
+        ctx.canvas.height = clientHeight;
+        ctx.width = ctx.canvas.clientWidth;
+        ctx.height = ctx.canvas.clientHeight;
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+
+      function drawTop(){
+        ctx.save()
+        ctx.strokeStyle = "rgb(200, 200, 200)"
+        ctx.beginPath();
+        ctx.translate(60, 60)
+        ctx.rotate((-90 * Math.PI) / 180);
+        ctx.arc(0, 0, 50, 0, Math.PI * 1, true);
+        ctx.rotate((180 * Math.PI) / 180);
+        ctx.arc(0, -500, 50, 0, Math.PI * 1, true);
+        ctx.lineTo(-50, 0);
+        ctx.stroke();
+        ctx.restore()
+      }
+
+      let x = 50
+
+      const games = {}
+
+      function drawGame(){
+        ctx.fillRect(x, 50, 150, 250)  
+        x += 200
+      }
+
+      function drawGames(){
+        ctx.fillStyle = "#FF0000"
+        drawGame()
+        drawGame()
+        drawGame()
+        drawGame()
+        x = 50
+      }
+
+      function renderContext() {
+        ctx.clearRect(0, 0, ctx.width, ctx.height)
+        ctx.fillStyle = "rgb(20, 20, 20)"
+        ctx.fillRect(0, 0, ctx.width, ctx.height)
+        drawGames()
+        requestAnimationFrame(renderContext);
+      }
+      requestAnimationFrame(renderContext);
+
+      addEventListener(
+        "resize",
+        () => {
+          resizeContext();
+          renderContext();
+        },
+        { passive: true }
+      );
+
+      resizeContext();
+      renderContext();
+    </script>
+</body>
