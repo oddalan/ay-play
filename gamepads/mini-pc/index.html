@@ -8,52 +8,52 @@
             margin: 0;
             
         }
-        canvas {
+        /* canvas {
             position: fixed;
             inset: 0;
             height: 100%;
             width: 100%;
             
-        }
+        } */
     </style>
     <body>
     <title>Mini PC</title>
-    <canvas width="900" height="450" id="screen"></canvas>
+    <canvas width="1024" height="600" id="screen"></canvas>
     
     <script>
         const screen = document.getElementById("screen");
         const ctx = screen.getContext("2d");
 
-      function resizeContext() {
-        let { clientWidth, clientHeight } = ctx.canvas;
-        ctx.canvas.width = clientWidth;
-        ctx.canvas.height = clientHeight;
-        ctx.width = ctx.canvas.clientWidth;
-        ctx.height = ctx.canvas.clientHeight;
-        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      }
+      // function resizeContext() {
+      //   let { clientWidth, clientHeight } = ctx.canvas;
+      //   ctx.canvas.width = clientWidth;
+      //   ctx.canvas.height = clientHeight;
+      //   ctx.width = ctx.canvas.clientWidth;
+      //   ctx.height = ctx.canvas.clientHeight;
+      //   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      // }
 
-      function drawTop(){
-        ctx.save()
-        ctx.strokeStyle = "rgb(200, 200, 200)"
-        ctx.beginPath();
-        ctx.translate(60, 60)
-        ctx.rotate((-90 * Math.PI) / 180);
-        ctx.arc(0, 0, 50, 0, Math.PI * 1, true);
-        ctx.rotate((180 * Math.PI) / 180);
-        ctx.arc(0, -500, 50, 0, Math.PI * 1, true);
-        ctx.lineTo(-50, 0);
-        ctx.stroke();
-        ctx.restore()
-      }
+      let gameNumber = 1
 
-      let x = 50
-
-      const games = {}
-
+      
       function drawGame(){
-        ctx.fillRect(x, 50, 150, 250)  
-        x += 200
+        if (gameNumber === 1){  
+          ctx.fillStyle = "#FF0000"
+          ctx.fillRect(1024 / 2 - 275, 35, -200, 320)  
+        }
+        if (gameNumber === 2){  
+          ctx.fillStyle = "#FFFF00"
+          ctx.fillRect(1024 / 2 - 25, 35, -200, 320)  
+        }
+        if (gameNumber === 3){
+          ctx.fillStyle = "#00FF00"
+          ctx.fillRect(1024 / 2 + 25, 35, 200, 320)  
+        }
+        if (gameNumber === 4){  
+          ctx.fillStyle = "#6666FF"
+          ctx.fillRect(1024 / 2 + 275, 35, 200, 320)  
+        }
+        gameNumber++
       }
 
       function drawGames(){
@@ -62,14 +62,17 @@
         drawGame()
         drawGame()
         drawGame()
-        x = 50
+        gameNumber = 1
       }
-
+      
+      
       function renderContext() {
         ctx.clearRect(0, 0, ctx.width, ctx.height)
         ctx.fillStyle = "rgb(20, 20, 20)"
-        ctx.fillRect(0, 0, ctx.width, ctx.height)
+        ctx.fillRect(0, 0, 1024, 600)
         drawGames()
+        // ctx.font = "48px serif";
+        // ctx.fillText("More Games?", 146 * 6.1 / 2 - 225, 146 * 3.43 - 15);
         requestAnimationFrame(renderContext);
       }
       requestAnimationFrame(renderContext);
@@ -77,13 +80,13 @@
       addEventListener(
         "resize",
         () => {
-          resizeContext();
+          // resizeContext();
           renderContext();
         },
         { passive: true }
       );
 
-      resizeContext();
+      // resizeContext();
       renderContext();
     </script>
 </body>
