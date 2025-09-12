@@ -1,0 +1,136 @@
+<body>
+<title>speed run</title>
+<script type="module">
+  const canvas = document.getElementById("screen");
+  const ctx = canvas.getContext("2d");
+
+  function getRandomInt(min, max) {
+    return min + Math.floor((max - min + 1) * Math.random());
+  }
+
+    function checkCollision(a, b) {
+        if ( a.x + a.width < b.x) {  
+            return false;
+        }else{
+              
+        }
+        if (a.y + a.height < b.y) {
+            return false;
+        }else{
+          
+        }
+        if (b.x + b.width < a.x ) {
+            return false;
+        }else{
+          
+        }
+        if (b.y + b.height < a.y) {
+            return false;
+        }else{
+          
+        }
+        return true;
+    }
+
+    function resizeContext() {
+        let { clientWidth, clientHeight } = ctx.canvas;
+        ctx.canvas.width = clientWidth;
+        ctx.canvas.height = clientHeight;
+        ctx.width = ctx.canvas.clientWidth;
+        ctx.height = ctx.canvas.clientHeight;
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+
+      resizeContext();
+
+      const players = [{speedX: 0, speedY: 0, x: 10, y: 10, width: 50, height: 50, maxJumps: 1, collision: false}]
+      const boxes = [{speedX: 0, speedY: 0, x: 10, y: 500, width: 400, height: 50, collision: false},{speedX: 0, speedY: 0, x: 500, y: 800, width: 400, height: 50, collision: false},]
+
+
+      let collision = false
+
+      function renderContext() {
+        ctx.clearRect(0,0,ctx.width, ctx.height)
+        collision = false
+        for(let player of players){
+            ctx.fillStyle = "#000066"
+            player.x += player.speedX
+            player.y += player.speedY
+            ctx.fillRect(player.x, player.y, player.width, player.height)
+            player.x += player.speedX
+            for(let box of boxes){
+                ctx.fillStyle = "#000000"
+                ctx.fillRect(box.x,box.y,box.width,box.height)
+                if(checkCollision(player, box)){ 
+                    player.collision = true
+                    collision = true
+                }else{
+                    
+                    player.collision = true
+                }
+                
+                if(collision){
+                  player.maxJumps = 1
+                    player.speedY = 0
+                }else{player.speedY += 0.05}
+
+                
+            } 
+        }
+        requestAnimationFrame(renderContext);
+      }
+      requestAnimationFrame(renderContext);
+
+      addEventListener("keydown", (event) => {
+        if (event.key === "d" || event.key === "ArrowRight") {
+            if (players[0].speedX < 3){
+                if (players[0].speedX > 1.5){
+                    players[0].speedX = 1.5
+                }else{
+                    players[0].speedX += 0.1
+                }
+            }
+        }
+        if (event.key === "a" || event.key === "ArrowLeft") {
+            if (players[0].speedX > -3){
+                if (players[0].speedX < -1.5){
+                    players[0].speedX = -1.5
+                }else{
+                    players[0].speedX -= 0.1
+                }
+            }
+        }
+        if (event.key === "w" && players[0].maxJumps !== 0 && collision === true) {
+            players[0].speedY = -5
+            players[0].maxJumps--
+        }
+      })
+      addEventListener("keyup", (event) => {
+        players[0].speedX = 0
+      })
+
+      
+      players[0].collision = false
+      
+
+      addEventListener(
+        "resize",
+        () => {
+          resizeContext();
+        },
+        { passive: true }
+      );
+</script>
+
+<style>
+    canvas {
+        position: fixed;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+      }
+</style>
+
+<canvas id="screen"> </canvas>
+
+</body>

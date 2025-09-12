@@ -19,7 +19,7 @@
     <body>
     <title>Mini PC</title>
     <canvas width="1024" height="600" id="screen"></canvas>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <script>
         const screen = document.getElementById("screen");
         const ctx = screen.getContext("2d");
@@ -34,43 +34,50 @@
       // }
 
       let gameNumber = 1
-
+      let games = [{x: 1024 / 2 - 275, y:35, width: -200, height: 320, color: "#FF0000", }, 
+      {x: 1024 / 2 - 25, y:35, width: -200, height: 320, color: "#FFFF00"}, 
+      {x: 1024 / 2 + 25, y:35, width: 200, height: 320, color: "#00FF00"}, 
+      {x: 1024 / 2 + 275, y:35, width: 200, height: 320, color: "#4444FF"},
+      ]
       
       function drawGame(){
-        if (gameNumber === 1){  
-          ctx.fillStyle = "#FF0000"
-          ctx.fillRect(1024 / 2 - 275, 35, -200, 320)  
+        for (let game of games){
+          ctx.fillStyle = game.color
+          ctx.fillRect(game.x, game.y, game.width, game.height)
         }
-        if (gameNumber === 2){  
-          ctx.fillStyle = "#FFFF00"
-          ctx.fillRect(1024 / 2 - 25, 35, -200, 320)  
-        }
-        if (gameNumber === 3){
-          ctx.fillStyle = "#00FF00"
-          ctx.fillRect(1024 / 2 + 25, 35, 200, 320)  
-        }
-        if (gameNumber === 4){  
-          ctx.fillStyle = "#6666FF"
-          ctx.fillRect(1024 / 2 + 275, 35, 200, 320)  
-        }
-        gameNumber++
       }
 
-      function drawGames(){
+      function drawGamesAndButtons(){
         ctx.fillStyle = "#FF0000"
         drawGame()
         drawGame()
         drawGame()
         drawGame()
         gameNumber = 1
+        // ctx.fillStyle = "#252525"
+        // ctx.beginPath();
+        // ctx.arc(15, 15, 7, Math.PI + Math.PI / 2, Math.PI / 2, true);
+        // ctx.arc(45, 15, 7, Math.PI / 2,  Math.PI + Math.PI / 2, true);
+        // ctx.fill()
+        // // ctx.fillStyle = "#333333"
+        // // ctx.font = "30px serif";
+        // // ctx.fillText("+", 30, 10);
+        // // ctx.fillStyle = "#555555"
+        // ctx.beginPath();
+        // ctx.arc(65, 15, 7, Math.PI + Math.PI / 2, Math.PI / 2, true);
+        // ctx.arc(95, 15, 7, Math.PI / 2,  Math.PI + Math.PI / 2, true);
+        // ctx.fill()
       }
       
       
       function renderContext() {
+        screen.addEventListener("click", (e) => {
+          console.log("click");
+        });
         ctx.clearRect(0, 0, ctx.width, ctx.height)
         ctx.fillStyle = "rgb(20, 20, 20)"
         ctx.fillRect(0, 0, 1024, 600)
-        drawGames()
+        drawGamesAndButtons()
         // ctx.font = "48px serif";
         // ctx.fillText("More Games?", 146 * 6.1 / 2 - 225, 146 * 3.43 - 15);
         requestAnimationFrame(renderContext);
