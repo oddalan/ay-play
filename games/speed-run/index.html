@@ -29,6 +29,9 @@
         }else{
           
         }
+        if (a.y + a.height + 0.11 < b.y){
+            a.y += 0.1
+        }
         return true;
     }
 
@@ -123,6 +126,9 @@
 </script>
 
 <style>
+    body {
+        margin: 0px;
+    }
     canvas {
         position: fixed;
         inset: 0;

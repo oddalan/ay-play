@@ -9,26 +9,31 @@
   }
 
     function checkCollision(a, b) {
-        if ( a.x + a.width < b.x) {  
+        if (a.x + a.width < b.x) {  
+            console.log("(a.x + a.width < b.x)")
             return false;
         }else{
               
         }
         if (a.y + a.height < b.y) {
+            console.log("(a.y + a.height < b.y)")
             return false;
         }else{
           
         }
         if (b.x + b.width < a.x ) {
+            console.log("(b.x + b.width < a.x )")
             return false;
         }else{
           
         }
         if (b.y + b.height < a.y) {
+            console.log("(b.y + b.height < a.y)")
             return false;
         }else{
-          
+          console.log("top")
         }
+        // console.log("true")
         return true;
     }
 
