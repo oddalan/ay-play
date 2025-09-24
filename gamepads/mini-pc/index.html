@@ -1,24 +1,67 @@
 <style>
         html {
             height: 100%;
-            
+            margin: 0px;
         }
         body{
             height: 100%;
             margin: 0;
-            
+            z-index: 0;
         }
-        /* canvas {
-            position: fixed;
-            inset: 0;
-            height: 100%;
-            width: 100%;
-            
+        /* div{
+          inset: 1;
         } */
+        canvas{
+          margin: 0;
+          z-index: 0;
+        }
+        .one{
+          width:"200em";
+          height:"320em";
+          /* position: relative; */
+          z-index: 1;
+          margin: 25;
+          background-color: #FF0000;
+        }
+        .two{
+          width:"200em";
+          height:"320em";
+          /* position: relative; */
+          z-index: 2;
+          margin: 25;
+          background-color: #FFFF00;
+        }
+        .three{
+          width:"200em";
+          height:"320em";
+          /* position: relative; */
+          z-index: 3;
+          margin: 25;
+          background-color: #00FF00;
+        }
+        .four{
+          width:"200em";
+          height:"320em";
+          /* position: relative; */
+          z-index: 4;
+          margin: 25;
+          background-color: #4444FF;
+        }
     </style>
     <body>
     <title>Mini PC</title>
     <canvas width="1024" height="600" id="screen"></canvas>
+    <!-- width="200px" height="320"
+width="200px" height="320"
+width="200px" height="320"
+width="200px" height="320" -->
+    <p>
+    <!-- <div width="6" height="320"></div> -->
+      <div class="one"></div>
+      <div class="two"></div>
+      <div class="three"></div>
+      <div class="four"></div>
+    </p>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <script>
         const screen = document.getElementById("screen");
@@ -71,9 +114,9 @@
       
       
       function renderContext() {
-        screen.addEventListener("click", (e) => {
-          console.log("click");
-        });
+        // screen.addEventListener("click", (e) => {
+        //   console.log("click");
+        // });
         ctx.clearRect(0, 0, ctx.width, ctx.height)
         ctx.fillStyle = "rgb(20, 20, 20)"
         ctx.fillRect(0, 0, 1024, 600)
