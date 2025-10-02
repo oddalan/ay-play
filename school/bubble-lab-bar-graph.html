@@ -1,0 +1,271 @@
+<body>
+    <title>Bar Graph</title>
+    <h1>Bar Graph For Bubble Sizes</h1>
+    <h2>avrage sizes for each soap</h2>
+    <p>
+        <canvas id="y-axis1" width="30" height="300" ></canvas>
+        <canvas id="graph1" width="300" height="300" ></canvas>
+        <p>
+            <canvas id="blank-canvas" width="30" height="30" ></canvas>
+            <canvas id="x-axis1" width="300" height="30" ></canvas>
+        </p>
+    </p>
+    <script>
+        function run_graph(){
+            const graph = document.getElementById("graph1");
+            const ctx = graph.getContext("2d");
+
+            // ctx.fillStyle = "#FFFFFF"
+            // ctx.font = "24px serif";
+            // ctx.fillText("This does not work on dark", 8, 25);
+            // ctx.fillText("mode. Put your device on ", 8, 50);
+            // ctx.fillText("light mode.", 8, 75);
+
+            ctx.fillStyle = "#00FF00"
+            ctx.fillRect(graph.width / 4 * 1 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * (8.2 + 14.3 + 14 + 13.9 + 15.8));
+            console.log((8.2 + 14.3 + 14 + 13.9 + 15.8) / 5);
+            
+            ctx.fillStyle = "#FF0000"
+            ctx.fillRect(graph.width / 4 * 2 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * (9.4 + 10.5 + 9.3 + 5 + 7.9));
+            console.log((9.4 + 10.5 + 9.3 + 5 + 7.9) / 5);
+
+            ctx.fillStyle = "#FFFF00"
+            ctx.fillRect(graph.width / 4 * 3 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * (15.5 + 9.5 + 9 + 7 + 6.4));
+            console.log((15.5 + 9.5 + 9 + 7 + 6.4) / 5);
+        }
+
+        function run_y_axis(){
+            const y_axis = document.getElementById("y-axis1");
+            const ctx = y_axis.getContext("2d");
+
+            ctx.fillStyle = "#FFFFFF"
+            
+            ctx.font = "24px serif";
+            ctx.fillRect(0, 300 / 10 * 1 - 2, 30, 4);
+            ctx.fillText("18", 0.1, 300 / 10 * 1 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 2 - 2, 30, 4);
+            ctx.fillText("16", 0.1, 300 / 10 * 2 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 3 - 2, 30, 4);
+            ctx.fillText("14", 0.1, 300 / 10 * 3 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 4 - 2, 30, 4);
+            ctx.fillText("12", 0.1, 300 / 10 * 4 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 5 - 2, 30, 4);
+            ctx.fillText("10", 0.1, 300 / 10 * 5 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 6 - 2, 30, 4);
+            ctx.fillText("8", 0.1, 300 / 10 * 6 - 3);
+
+            ctx.fillRect(0, 300 / 10 * 7 - 2, 30, 4);
+            ctx.fillText("6", 0.1, 300 / 10 * 7 - 3);
+
+            ctx.fillRect(0, 300 / 10 * 8 - 2, 30, 4);
+            ctx.fillText("4", 0.1, 300 / 10 * 8 - 3);
+
+            ctx.fillRect(0, 300 / 10 * 9 - 2, 30, 4);
+            ctx.fillText("2", 0.1, 300 / 10 * 9 - 3);
+
+            ctx.fillText("0", 0.1, 300 / 10 * 10 - 3);
+        }
+
+        function run_x_axis(){
+            const x_axis = document.getElementById("x-axis1");
+            const ctx = x_axis.getContext("2d");
+
+            ctx.font = "15px serif";
+            ctx.fillStyle = "#00FF00"
+            ctx.fillText("Ever Spring", 300 / 4 * 1 - 38, 23);
+
+            ctx.fillStyle = "#FF0000"
+            ctx.fillText("Dawn", 300 / 4 * 2 - 18, 23);
+
+            ctx.font = "13px serif";
+            ctx.fillStyle = "#FFFF00"
+            ctx.fillText("Seventh Generation", 300 / 4 * 3 - 45, 23);
+        }
+
+        run_graph()
+        run_y_axis()
+        run_x_axis()
+    </script>
+    <h2>Ever Spring sizes. (in cm.)</h2>
+        <p>
+        <canvas id="y-axis2" width="30" height="300" ></canvas>
+        <canvas id="graph2" width="300" height="300" ></canvas>
+        <p>
+            <canvas id="blank-canvas" width="30" height="30" ></canvas>
+            <canvas id="x-axis2" width="300" height="30" ></canvas>
+        </p>
+    </p>
+    <script>
+        function run_graph(){
+            const graph = document.getElementById("graph2");
+            const ctx = graph.getContext("2d");
+
+            ctx.fillStyle = "#FF0000"
+            ctx.fillRect(graph.width / 6 * 1 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * 82 / 2);
+            ctx.fillStyle = "#FF7700"
+            ctx.fillRect(graph.width / 6 * 2 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * 143 / 2);
+            ctx.fillStyle = "#FFFF00"
+            ctx.fillRect(graph.width / 6 * 3 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * 140 / 2);
+            ctx.fillStyle = "#00FF00"
+            ctx.fillRect(graph.width / 6 * 4 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * 139 / 2);
+            ctx.fillStyle = "#2222FF"
+            ctx.fillRect(graph.width / 6 * 5 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * 158 / 2);
+        }
+
+        function run_y_axis(){
+            const y_axis = document.getElementById("y-axis2");
+            const ctx = y_axis.getContext("2d");
+
+            ctx.font = "24px serif";
+            ctx.fillStyle = "#FFFFFF"
+            ctx.fillRect(0, 300 / 10 * 1 - 2, 30, 4);
+            ctx.fillText("18", 0.1, 300 / 10 * 1 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 2 - 2, 30, 4);
+            ctx.fillText("16", 0.1, 300 / 10 * 2 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 3 - 2, 30, 4);
+            ctx.fillText("14", 0.1, 300 / 10 * 3 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 4 - 2, 30, 4);
+            ctx.fillText("12", 0.1, 300 / 10 * 4 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 5 - 2, 30, 4);
+            ctx.fillText("10", 0.1, 300 / 10 * 5 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 6 - 2, 30, 4);
+            ctx.fillText("8", 0.1, 300 / 10 * 6 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 7 - 2, 30, 4);
+            ctx.fillText("6", 0.1, 300 / 10 * 7 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 8 - 2, 30, 4);
+            ctx.fillText("4", 0.1, 300 / 10 * 8 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 9 - 2, 30, 4);
+            ctx.fillText("2", 0.1, 300 / 10 * 9 - 6);
+
+            ctx.fillText("0", 0.1, 300 / 10 * 10 - 6);
+        }
+
+        function run_x_axis(){
+            const x_axis = document.getElementById("x-axis2");
+            const ctx = x_axis.getContext("2d");
+
+            ctx.font = "24px serif";
+            ctx.fillStyle = "#00FF00"
+            ctx.fillText("Ever Spring", 300 / 4 * 1 + 10, 23);
+        }
+
+        run_graph()
+        run_y_axis()
+        run_x_axis()
+    </script>
+
+    <h2>Dawn sizes. (in cm.)</h2>
+        <p>
+        <canvas id="y-axis3" width="30" height="300" ></canvas>
+        <canvas id="graph3" width="300" height="300" ></canvas>
+        <p>
+            <canvas id="blank-canvas" width="30" height="30" ></canvas>
+            <canvas id="x-axis3" width="300" height="30" ></canvas>
+        </p>
+    </p>
+    <script>
+        function run_graph(){
+            const graph = document.getElementById("graph3");
+            const ctx = graph.getContext("2d");
+
+            ctx.fillStyle = "#FF0000"
+            ctx.fillRect(graph.width / 6 * 1 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * 94 / 2);
+            ctx.fillStyle = "#FF7700"
+            ctx.fillRect(graph.width / 6 * 2 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * 105 / 2);
+            ctx.fillStyle = "#FFFF00"
+            ctx.fillRect(graph.width / 6 * 3 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * 93 / 2);
+            ctx.fillStyle = "#00FF00"
+            ctx.fillRect(graph.width / 6 * 4 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * 50 / 2);
+            ctx.fillStyle = "#2222FF"
+            ctx.fillRect(graph.width / 6 * 5 - graph.width / 10 / 2, graph.width , graph.width / 10, 0 - graph.height / 100 * 79 / 2);
+        }
+
+        function run_y_axis(){
+            const y_axis = document.getElementById("y-axis3");
+            const ctx = y_axis.getContext("2d");
+
+            ctx.font = "24px serif";
+            ctx.fillStyle = "#FFFFFF"
+            ctx.fillRect(0, 300 / 10 * 1 - 2, 30, 4);
+            ctx.fillText("18", 0.1, 300 / 10 * 1 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 2 - 2, 30, 4);
+            ctx.fillText("16", 0.1, 300 / 10 * 2 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 3 - 2, 30, 4);
+            ctx.fillText("14", 0.1, 300 / 10 * 3 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 4 - 2, 30, 4);
+            ctx.fillText("12", 0.1, 300 / 10 * 4 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 5 - 2, 30, 4);
+            ctx.fillText("10", 0.1, 300 / 10 * 5 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 6 - 2, 30, 4);
+            ctx.fillText("8", 0.1, 300 / 10 * 6 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 7 - 2, 30, 4);
+            ctx.fillText("6", 0.1, 300 / 10 * 7 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 8 - 2, 30, 4);
+            ctx.fillText("4", 0.1, 300 / 10 * 8 - 6);
+
+            ctx.fillRect(0, 300 / 10 * 9 - 2, 30, 4);
+            ctx.fillText("2", 0.1, 300 / 10 * 9 - 6);
+
+            ctx.fillText("0", 0.1, 300 / 10 * 10 - 6);
+        }
+
+        function run_x_axis(){
+            const x_axis = document.getElementById("x-axis3");
+            const ctx = x_axis.getContext("2d");
+
+            ctx.font = "24px serif";
+            ctx.fillStyle = "#00FF00"
+            ctx.fillText("Dawn", 300 / 4 * 1 + 35, 23);
+        }
+
+        run_graph()
+        run_y_axis()
+        run_x_axis()
+    </script>
+
+    <style>
+        
+        body{
+            margin: 5px;
+            transform: scale(1);
+            background: rgb(255, 255, 255),;
+        } 
+        canvas{
+            margin: 5px;
+            outline: 5px solid rgb(0, 0, 0);
+            background-color: black;
+        }
+        p{
+            margin: 0;
+        }
+        div{
+            width: 30;
+            height: 30;
+            margin: 5px;
+            outline: 5px solid rgb(0, 0, 0);
+        }
+        h2{
+            margin: 0.5;
+        }
+</style>
+</body>
